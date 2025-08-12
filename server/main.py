@@ -1,5 +1,8 @@
 from fastapi import FastAPI, Request, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import HTMLResponse
+from pathlib import Path
 from pydantic import BaseModel
 from typing import Any, Dict
 from datetime import datetime, timezone
@@ -20,6 +23,18 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Static splash page
+static_dir = Path(__file__).parent / "static"
+app.mount("/static", StaticFiles(directory=str(static_dir), html=False), name="static")
+
+
+@app.get("/", response_class=HTMLResponse)
+async def splash() -> str:
+    index = static_dir / "index.html"
+    if index.exists():
+        return index.read_text(encoding="utf-8")
+    return "<h1>IngressKit</h1><p>Lightweight data ingress toolkit.</p>"
 
 
 class CanonicalEvent(BaseModel):
