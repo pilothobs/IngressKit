@@ -1,9 +1,25 @@
 from fastapi import FastAPI, Request, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import Any, Dict
 from datetime import datetime, timezone
 
 app = FastAPI(title="IngressKit Server", version="0.1.0")
+
+# CORS for docs or demo origins (adjust as needed)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "https://www.ingresskit.com",
+        "https://ingresskit.com",
+        "https://ingresskit.dev",
+        "http://localhost:3000",
+        "http://localhost:5173",
+    ],
+    allow_credentials=False,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 class CanonicalEvent(BaseModel):
