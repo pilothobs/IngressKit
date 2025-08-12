@@ -40,13 +40,7 @@ curl -X POST "http://localhost:8080/v1/webhooks/ingest?source=stripe" -H "Conten
 curl -X POST "http://localhost:8080/v1/json/normalize?schema=contacts" -H "Content-Type: application/json" -d '{"Email":"USER@EXAMPLE.COM","Phone":"(555) 123-4567","Name":" Doe, Jane "}' | jq .
 ```
 
-### Roadmap (MVP 3–4 weeks)
-- Week 1: CSV repair core (headers, types, units), contacts schema, CLI, examples.
-- Week 2: Additional schemas (transactions, products), docs, tests, packaging (PyPI).
-- Week 3: Webhook Harmonizer for 2–3 sources (Stripe, GitHub, Slack) with contract tests.
-- Week 4: JSON normalizer endpoint, GitHub Action demo, PAYG metering stub.
-
 ### Notes
-- This is a starter scaffold to begin integration and iteration quickly. Expand schemas, rules, and providers as you go.
+- Starter scaffold to begin integration quickly. Expand schemas, rules, and providers as you go.
 
 
