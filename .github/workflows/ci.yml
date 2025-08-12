@@ -1,0 +1,41 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  server-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install server requirements
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r server/requirements.txt
+      - name: Run pytest
+        working-directory: server
+        run: pytest -q
+
+  sdk-smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install SDK requirements
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r sdk/python/requirements.txt
+      - name: Run CLI smoke test (contacts)
+        run: |
+          python -m sdk.python.ingresskit.cli --in examples/contacts_messy.csv --out contacts_clean_ci.csv --schema contacts
+          head -n 3 contacts_clean_ci.csv || true
+
+

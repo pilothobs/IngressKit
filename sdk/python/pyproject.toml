@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=67.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ingresskit"
+version = "0.0.1"
+description = "CSV/Excel import repair SDK with deterministic transforms"
+readme = "../../README.md"
+requires-python = ">=3.9"
+dependencies = [
+  "typer>=0.12.3",
+  "python-dateutil>=2.9.0",
+]
+
+[project.scripts]
+ingresskit = "ingresskit.cli:app"
+
+
