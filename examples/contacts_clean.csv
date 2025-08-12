@@ -1,0 +1,4 @@
+email,phone,first_name,last_name,company
+user@example.com,5551234567,,,Acme Inc
+example+test@domain.com,5559876543,,,
+,,,,

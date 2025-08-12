@@ -1,0 +1,12 @@
+[build-system]
+requires = ["setuptools>=67.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ingresskit-server"
+version = "0.0.1"
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+
+

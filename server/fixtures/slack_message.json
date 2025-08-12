@@ -1,0 +1,11 @@
+{
+  "event_id": "Ev01",
+  "event_time": 1723381234,
+  "event": {
+    "type": "message",
+    "user": "U123",
+    "channel": "C456",
+    "text": "Hello world"
+  }
+}
+

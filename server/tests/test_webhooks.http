@@ -1,0 +1,23 @@
+# Stripe
+POST http://127.0.0.1:8080/v1/webhooks/ingest?source=stripe
+Content-Type: application/json
+
+< ../fixtures/stripe_charge_succeeded.json
+
+###
+
+# GitHub
+POST http://127.0.0.1:8080/v1/webhooks/ingest?source=github
+Content-Type: application/json
+
+< ../fixtures/github_issue_opened.json
+
+###
+
+# Slack
+POST http://127.0.0.1:8080/v1/webhooks/ingest?source=slack
+Content-Type: application/json
+
+< ../fixtures/slack_message.json
+
+

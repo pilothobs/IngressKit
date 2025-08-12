@@ -1,0 +1,4 @@
+Transaction ID,Amount (USD),ISO Currency,Date,Customer
+txn_1,$12.34,USD,2025-08-10,cus_1
+txn_2,9.5,usd,08/11/2025,cus_2
+

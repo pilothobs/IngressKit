@@ -1,0 +1,4 @@
+id,amount,currency,occurred_at,customer_id
+txn_1,12.34,USD,2025-08-10,cus_1
+txn_2,9.50,USD,2025-08-11,cus_2
+,,,,

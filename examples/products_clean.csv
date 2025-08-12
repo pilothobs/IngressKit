@@ -1,0 +1,4 @@
+sku,name,price,currency,category
+sku-001,Widget A,19.99,USD,Hardware
+sku-002,Gadget B,5.50,USD,Accessories
+,,,,

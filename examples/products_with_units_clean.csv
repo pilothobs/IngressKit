@@ -1,0 +1,4 @@
+sku,name,price,currency,category,weight_kg,length_m
+sku-100,Steel Bar,10.00,USD,Hardware,0.997903,0.914400
+sku-101,Plastic Rod,5.00,USD,Hardware,0.226796,0.457200
+,,,,,,
