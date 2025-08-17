@@ -4,11 +4,10 @@
 
 Stop rewriting CSV importers and webhook parsers. IngressKit is a lightweight, deterministic toolkit that normalizes messy data from any source into clean, schema-compliant formats.
 
-[![CI](https://github.com/pilothobs/ingresskit/workflows/CI/badge.svg)](https://github.com/pilothobs/ingresskit/actions)
+[![PyPI version](https://badge.fury.io/py/ingresskit.svg)](https://badge.fury.io/py/ingresskit)
 [![Docker Pulls](https://img.shields.io/docker/pulls/pilothobs/ingresskit)](https://hub.docker.com/r/pilothobs/ingresskit)
+[![GitHub Actions](https://github.com/pilothobs/ingresskit/workflows/CI/badge.svg)](https://github.com/pilothobs/ingresskit/actions)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
-[![Sponsor](https://img.shields.io/static/v1?label=Sponsor&message=%E2%9D%A4&logo=GitHub&color=%23fe8e86)](https://github.com/sponsors/pilothobs)
 [![GitHub stars](https://img.shields.io/github/stars/pilothobs/ingresskit.svg?style=social&label=Star)](https://github.com/pilothobs/ingresskit)
 
 ## 🎯 **Why IngressKit?**
@@ -247,46 +246,10 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines.
 
 MIT License - use IngressKit freely in your projects, commercial or otherwise.
 
-## ❤️ **Support Open Source**
-
-IngressKit is free and always will be. If this project saves you time, consider supporting its development:
-
-### **🌟 Become a Sponsor**
-- **GitHub Sponsors**: [Sponsor @pilothobs](https://github.com/sponsors/pilothobs)
-- **One-time Support**: [Buy us a coffee](https://github.com/sponsors/pilothobs?frequency=one-time)
-
-### **Sponsorship Tiers**
-- **☕ Backer ($5/month)**: Name in README supporters list
-- **🚀 Sponsor ($25/month)**: Logo in repo and website supporters page
-- **🏢 Enterprise Supporter ($100+/month)**: Priority schema requests and direct support
-
-### **Other Ways to Support**
-- ⭐ **Star the repo** - helps with visibility
-- 🐛 **Report bugs** - makes IngressKit better for everyone
-- 📝 **Contribute schemas** - expand IngressKit's capabilities
-- 💬 **Spread the word** - share with other developers
-
-## 🙏 **Supporters**
-
-Thank you to all our supporters who make IngressKit possible!
-
-### **Sponsors**
-*Be the first to sponsor IngressKit and get your logo here!*
-
-### **Backers**
-*Be the first to back IngressKit and get your name here!*
-
-<!-- 
-Sponsors and backers will be automatically updated via GitHub Actions
-when GitHub Sponsors integration is set up
--->
-
 ## 🔮 **Coming Soon**
 
 **IngressKit Cloud** - Managed hosting for teams who want IngressKit without the ops overhead. [Join the waitlist](https://ingresskit.com/cloud) for early access.
 
 ---
 
-**Built with ❤️ by [@pilothobs](https://github.com/pilothobs)** | **⭐ Star us on GitHub if IngressKit saves you time!**
-
-
+**Built by [@pilothobs](https://github.com/pilothobs)** | **⭐ Star us on GitHub if IngressKit saves you time!**

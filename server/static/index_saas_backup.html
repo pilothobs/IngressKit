@@ -1,0 +1,509 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>IngressKit</title>
+    <style>
+      :root {
+        --bg: #ffffff;
+        --fg: #101418;
+        --muted: #5a6672;
+        --card-bg: #ffffff;
+        --card-border: #e7ebef;
+        --code-bg: #f5f7f9;
+        --accent: #3b82f6;
+        --panel-min-h-desktop: 240px;
+      }
+      [data-theme="dark"] {
+        --bg: #0e1217;
+        --fg: #e6edf3;
+        --muted: #9aa7b3;
+        --card-bg: #151a21;
+        --card-border: #242b33;
+        --code-bg: #1c232c;
+        --accent: #60a5fa;
+      }
+      html, body { height: 100%; }
+      body {
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+        margin: 0; padding: 0; background: var(--bg); color: var(--fg);
+      }
+      .wrap { max-width: 980px; margin: 0 auto; padding: 2.25rem 1.25rem; }
+      .hero { background: radial-gradient(1200px 600px at 20% -10%, rgba(96,165,250,0.18), transparent 60%), radial-gradient(1000px 500px at 100% -20%, rgba(99,102,241,0.15), transparent 60%); padding: 2.4rem 0 1.2rem; border-bottom: 1px solid var(--card-border); }
+      header { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1.25rem; }
+      .brand { display:flex; align-items:center; gap:.6rem; font-weight: 800; letter-spacing: 0.2px; }
+      .brand svg { width: 22px; height:22px; }
+      .muted { color: var(--muted); }
+      h1 { margin: 0.25rem 0 0.5rem; font-size: 2.5rem; }
+      h2 { margin: 0.25rem 0 0.5rem; font-size: 1.4rem; }
+      p { line-height: 1.6; }
+      code { background: var(--code-bg); padding: 0.15rem 0.35rem; border-radius: 4px; }
+      .cards { display: grid; grid-template-columns: 1fr; gap: 0.8rem; margin-top:1.25rem; align-items: stretch; }
+      @media (min-width: 840px) { .cards { grid-template-columns: 1fr 1fr; } }
+      .card {
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        border-radius: 12px;
+        padding: 1.15rem 1.2rem;
+        box-shadow: 0 1px 2px rgba(16,20,24,0.04);
+        height: 100%;
+        text-align: center;
+      }
+      .cards > .card { margin: 0.2rem; }
+      .card { display: flex; flex-direction: column; justify-content: flex-start; }
+      .plan { text-align: center; }
+      .card.left { text-align: left; }
+      .full { grid-column: 1 / -1; }
+      .toggle { display: inline-flex; align-items: center; gap: 0.6rem; }
+      .switch { position: relative; width: 44px; height: 24px; background: var(--card-border); border-radius: 999px; cursor: pointer; transition: background .2s; }
+      .switch::after { content: ""; position: absolute; top: 3px; left: 3px; width: 18px; height: 18px; border-radius: 50%; background: var(--fg); transition: transform .2s; }
+      .switch[data-on="true"] { background: var(--accent); }
+      .switch[data-on="true"]::after { transform: translateX(20px); background: #fff; }
+      .cta { display: inline-flex; align-items: center; gap: .5rem; background: var(--accent); color: #fff; padding: .55rem .9rem; border-radius: 8px; text-decoration: none; font-weight: 600; }
+      .accent { color: var(--accent); }
+      .divider { height:1px; background: var(--card-border); margin: 1.2rem 0; }
+      .two-col { display:grid; grid-template-columns: 1fr; gap:1rem; }
+      @media (min-width: 840px) { .two-col { grid-template-columns: 1fr 1fr; } }
+      .grid3 { display: grid; grid-template-columns: 1fr; gap: 1rem; }
+      @media (min-width: 840px) { .grid3 { grid-template-columns: repeat(3, 1fr); } }
+      .badge { display: inline-block; padding: 0.15rem 0.5rem; border: 1px solid var(--card-border); border-radius: 999px; font-size: .85rem; color: var(--muted); }
+      .copy { cursor: pointer; border: 1px solid var(--card-border); background: var(--card-bg); color: var(--fg); border-radius: 6px; padding: 0.25rem 0.5rem; font-size: .85rem; }
+      details summary { cursor: pointer; }
+      .icon { display:inline-flex; align-items:center; justify-content:center; width:36px; height:36px; border:1px solid var(--card-border); border-radius:8px; margin-bottom:.4rem; }
+      .section-spacer { height: 10px; }
+      .pricing { display:grid; grid-template-columns: 1fr; gap: 0.6rem; justify-items: stretch; }
+      @media (min-width: 840px) { .pricing { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+      .plan { padding: 0.9rem; border:1px solid var(--card-border); border-radius: 12px; background: var(--card-bg); cursor:pointer; transition: box-shadow .15s, transform .05s; width: 100%; min-height: 280px; display:flex; flex-direction:column; justify-content:flex-start; text-align:center; box-sizing: border-box; }
+      .plan:active { transform: scale(0.996); }
+      .plan h4 { margin:.2rem 0 .4rem; }
+      .plan .price { font-size:1.2rem; font-weight:800; margin:.25rem 0; }
+      .plan ul { margin:.3rem 0 .2rem; padding-left:0.9rem; }
+      .plan .badge { margin-left:.4rem; }
+      .primary { background: var(--accent); color:#fff; border:none; padding:.6rem 1rem; border-radius:8px; font-weight:700; cursor:pointer; }
+      .trust { text-align:center; padding:.6rem; border:1px solid var(--card-border); border-radius:10px; }
+      /* Unified panel sizing */
+      .panel { padding: 16px 20px; margin-block: 16px; }
+      @media (min-width: 1024px) { .panel { min-height: var(--panel-min-h-desktop); } }
+      @media (max-width: 767px) { .panel { margin-block: 12px; } }
+    </style>
+  </head>
+  <body>
+    <div class="hero"><div class="wrap">
+      <header>
+        <div class="brand"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 12a8 8 0 1116 0 8 8 0 01-16 0z" stroke="currentColor" stroke-width="1.6"/><path d="M8 12h8M12 8v8" stroke="currentColor" stroke-width="1.6"/></svg> IngressKit</div>
+        <div class="toggle"><span class="muted">Theme</span><div id="themeSwitch" class="switch" role="switch" aria-checked="false" tabindex="0"></div></div>
+      </header>
+
+      <h1>Clean, Unified Data in Seconds — From Any Source</h1>
+      <p class="muted" style="margin-bottom:0.8rem">Fix messy CSVs, unify webhook formats, and repair JSON with one API call.</p>
+      <p class="muted" style="margin-bottom:1.2rem"><span class="accent">•</span> Faster onboarding <span class="accent">•</span> Predictable integrations <span class="accent">•</span> Auditable transforms</p>
+      <button id="ctaStart" class="primary" onclick="document.getElementById('pricing').scrollIntoView({behavior:'smooth', block:'start'})">Get Started Free →</button>
+    </div></div>
+
+    <div class="wrap">
+
+    <div class="cards">
+    <div class="card full panel">
+      <h3>Why teams use IngressKit</h3>
+      <div class="grid3">
+        <div>
+          <div class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 4h18M3 10h18M3 16h18M3 22h18"/></svg></div>
+          <h4>Repair messy files</h4>
+          <ul class="muted">
+            <li>CSV/Excel → canonical schema</li>
+            <li>Type & units normalization</li>
+            <li>Deterministic audit trace</li>
+          </ul>
+        </div>
+        <div>
+          <div class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M7 12h10M10 17h4"/></svg></div>
+          <h4>Unify webhooks</h4>
+          <ul class="muted">
+            <li>Stripe/GitHub/Slack → one shape</li>
+            <li>Predictable fields across sources</li>
+            <li>Idempotent handlers</li>
+          </ul>
+        </div>
+        <div>
+          <div class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="M8 8h8v8H8z"/></svg></div>
+          <h4>Fix JSON</h4>
+          <ul class="muted">
+            <li>LLM/3rd‑party → strict schema</li>
+            <li>Field repair & enum mapping</li>
+            <li>Consistent downstream use</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="card full panel">
+      <h3>How it flows</h3>
+      <div id="flow-panel" class="flow-wrap" style="max-width:960px; margin:0 auto; height:120px; overflow:visible;">
+        <svg id="flow-desktop" width="960" height="120" viewBox="0 0 960 120" preserveAspectRatio="xMidYMid meet" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <marker id="arrow" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--muted)" />
+            </marker>
+          </defs>
+          <!-- Node 1 (wider to fit label) -->
+          <rect x="75" y="36" width="270" height="48" rx="12" fill="var(--card-bg)" stroke="var(--card-border)" stroke-width="1"/>
+          <foreignObject x="87" y="36" width="246" height="48">
+            <div xmlns="http://www.w3.org/1999/xhtml" class="node-wrap"><div class="node-label">Messy Input (CSV/Webhook/JSON)</div></div>
+          </foreignObject>
+          <!-- Arrow 1 (gap 40px) -->
+          <path d="M345 60 H 385" stroke="var(--muted)" stroke-width="2" marker-end="url(#arrow)"/>
+          <!-- Node 2 -->
+          <rect x="385" y="36" width="220" height="48" rx="12" fill="var(--card-bg)" stroke="var(--card-border)" stroke-width="1"/>
+          <foreignObject x="397" y="36" width="196" height="48">
+            <div xmlns="http://www.w3.org/1999/xhtml" class="node-wrap"><div class="node-label">IngressKit</div></div>
+          </foreignObject>
+          <!-- Arrow 2 (gap 40px) -->
+          <path d="M605 60 H 645" stroke="var(--muted)" stroke-width="2" marker-end="url(#arrow)"/>
+          <!-- Node 3 -->
+          <rect x="645" y="36" width="240" height="48" rx="12" fill="var(--card-bg)" stroke="var(--card-border)" stroke-width="1"/>
+          <foreignObject x="657" y="36" width="216" height="48">
+            <div xmlns="http://www.w3.org/1999/xhtml" class="node-wrap"><div class="node-label">Clean, Predictable Output</div></div>
+          </foreignObject>
+        </svg>
+        <svg id="flow-tablet" width="720" height="120" viewBox="0 0 720 120" preserveAspectRatio="xMidYMid meet" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:none;">
+          <defs>
+            <marker id="arrow-t" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--muted)" />
+            </marker>
+          </defs>
+          <!-- Node 1 -->
+          <rect x="0" y="36" width="260" height="48" rx="12" fill="var(--card-bg)" stroke="var(--card-border)" stroke-width="1"/>
+          <foreignObject x="12" y="36" width="236" height="48">
+            <div xmlns="http://www.w3.org/1999/xhtml" class="node-wrap"><div class="node-label">Messy Input (CSV/Webhook/JSON)</div></div>
+          </foreignObject>
+          <!-- Arrow 1 -->
+          <path d="M260 60 H 292" stroke="var(--muted)" stroke-width="2" marker-end="url(#arrow-t)"/>
+          <!-- Node 2 -->
+          <rect x="292" y="36" width="200" height="48" rx="12" fill="var(--card-bg)" stroke="var(--card-border)" stroke-width="1"/>
+          <foreignObject x="304" y="36" width="176" height="48">
+            <div xmlns="http://www.w3.org/1999/xhtml" class="node-wrap"><div class="node-label">IngressKit</div></div>
+          </foreignObject>
+          <!-- Arrow 2 -->
+          <path d="M492 60 H 524" stroke="var(--muted)" stroke-width="2" marker-end="url(#arrow-t)"/>
+          <!-- Node 3 -->
+          <rect x="524" y="36" width="196" height="48" rx="12" fill="var(--card-bg)" stroke="var(--card-border)" stroke-width="1"/>
+          <foreignObject x="536" y="36" width="172" height="48">
+            <div xmlns="http://www.w3.org/1999/xhtml" class="node-wrap"><div class="node-label">Clean, Predictable Output</div></div>
+          </foreignObject>
+        </svg>
+        <svg id="flow-mobile" width="360" height="320" viewBox="0 0 360 320" preserveAspectRatio="xMidYMid meet" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:none;">
+          <defs>
+            <marker id="arrow-m" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--muted)" />
+            </marker>
+          </defs>
+          <!-- Node 1 -->
+          <rect x="50" y="16" width="260" height="48" rx="12" fill="var(--card-bg)" stroke="var(--card-border)" stroke-width="1"/>
+          <foreignObject x="62" y="16" width="236" height="48">
+            <div xmlns="http://www.w3.org/1999/xhtml" class="node-wrap"><div class="node-label">Messy Input (CSV/Webhook/JSON)</div></div>
+          </foreignObject>
+          <!-- Arrow 1 (down) -->
+          <path d="M180 64 V 112" stroke="var(--muted)" stroke-width="2" marker-end="url(#arrow-m)"/>
+          <!-- Node 2 -->
+          <rect x="90" y="112" width="180" height="48" rx="12" fill="var(--card-bg)" stroke="var(--card-border)" stroke-width="1"/>
+          <foreignObject x="102" y="112" width="156" height="48">
+            <div xmlns="http://www.w3.org/1999/xhtml" class="node-wrap"><div class="node-label">IngressKit</div></div>
+          </foreignObject>
+          <!-- Arrow 2 (down) -->
+          <path d="M180 160 V 208" stroke="var(--muted)" stroke-width="2" marker-end="url(#arrow-m)"/>
+          <!-- Node 3 -->
+          <rect x="50" y="208" width="260" height="48" rx="12" fill="var(--card-bg)" stroke="var(--card-border)" stroke-width="1"/>
+          <foreignObject x="62" y="208" width="236" height="48">
+            <div xmlns="http://www.w3.org/1999/xhtml" class="node-wrap"><div class="node-label">Clean, Predictable Output</div></div>
+          </foreignObject>
+        </svg>
+      </div>
+      <style>
+        .card.full h3 { margin-bottom: 8px; }
+        /* Flow wrapper sizing */
+        @media (max-width: 767px) { #flow-panel { height: 320px; } }
+        @media (min-width: 768px) and (max-width: 1023px) { #flow-panel { height: 120px; } }
+        /* Node text helpers */
+        .node-wrap { display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; text-align: center; }
+        .node-label { font-size: 16px; line-height: 24px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        /* Visibility toggles without scaling */
+        @media (max-width: 767px) {
+          #flow-desktop { display: none; }
+          #flow-tablet { display: none; }
+          #flow-mobile { display: block !important; }
+        }
+        @media (min-width: 768px) and (max-width: 1023px) {
+          #flow-desktop { display: none; }
+          #flow-tablet { display: block !important; }
+          #flow-mobile { display: none; }
+        }
+        @media (min-width: 1024px) {
+          #flow-desktop { display: block !important; }
+          #flow-tablet { display: none; }
+          #flow-mobile { display: none; }
+        }
+      </style>
+    </div>
+
+    <div class="card full panel">
+      <h3>How It Works</h3>
+      <div class="grid3">
+        <div>
+          <div class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M2 12h20"/></svg></div>
+          <h4>Get a key</h4>
+          <p class="muted">Enter any random string (e.g., a UUID). No signup needed for testing.</p>
+        </div>
+        <div>
+          <div class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12h16M4 6h16M4 18h16"/></svg></div>
+          <h4>Call the API</h4>
+          <p class="muted">Include <code>Authorization: Bearer &lt;YOUR_KEY&gt;</code> in requests.</p>
+        </div>
+        <div>
+          <div class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="M8 8h8v8H8z"/></svg></div>
+          <h4>Get clean data</h4>
+          <p class="muted">Messy in → canonical out with audit trace and deterministic steps.</p>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div style="text-align:center"><button class="primary" onclick="document.getElementById('ik_api_key').scrollIntoView({behavior:'smooth', block:'center'})">Try Free →</button></div>
+    </div>
+
+    <div class="card left panel" style="width:100%">
+      <h3>Get started for free</h3>
+      <p class="muted">Use any random string for your API key (e.g., a UUID). No signup required. Free tier is for testing only: <strong>2 repairs + 10 webhook events total</strong>. Keys with 0 credits can still use the free allowance.</p>
+      <div style="display:flex; gap:0.5rem; align-items:center; flex-wrap:wrap; margin:.2rem 0 .6rem;">
+        <input id="ik_api_key" placeholder="API key (e.g., b2f1... or any string)" style="padding:0.6rem; min-width:320px; border:1px solid var(--card-border); border-radius:8px;" />
+        <button id="ik_check" class="ik-pay" style="background:#6b7280">Check balance</button>
+        <span id="ik_balance" class="muted"></span>
+      </div>
+      <div class="two-col">
+        <div>
+          <h4>Step 1</h4>
+          <p class="muted">Pick an API key (any random string). Example:</p>
+          <code id="exKey">2d4b1e2c-90f3-4f3f-9a9a-1c2b3d4e5f6a</code>
+          <div style="margin-top:.4rem"><button class="copy" data-copy="#exKey">Copy key</button></div>
+        </div>
+        <div>
+          <h4>Step 2</h4>
+          <p class="muted">Paste into your API call:</p>
+          <pre id="ex2"><code>curl -X POST "https://api.ingresskit.dev/v1/json/normalize?schema=contacts" \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer &lt;YOUR_KEY&gt;" \
+  -d '{"Email":"USER@EXAMPLE.COM","Phone":"(555) 123-4567","Name":" Doe, Jane "}'
+</code></pre>
+          <button class="copy" data-copy="#ex2">Copy API call</button>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <p class="muted" style="margin:0">Step 3: Run your first request. Top up anytime; we auto‑credit your key after payment.</p>
+    </div>
+    <div class="card full left panel">
+      <h3>Quickstart Code</h3>
+      <div>
+        <div style="display:flex; gap:.5rem; flex-wrap:wrap; margin-bottom:.5rem;">
+          <button class="copy" data-tab="curl">cURL</button>
+          <button class="copy" data-tab="node">Node.js</button>
+          <button class="copy" data-tab="python">Python</button>
+        </div>
+        <div id="tab_curl">
+          <pre id="ex1"><code>curl -X POST "https://api.ingresskit.dev/v1/json/normalize?schema=contacts" \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer &lt;API_KEY&gt;" \
+  -d '{"Email":"USER@EXAMPLE.COM","Phone":"(555) 123-4567","Name":" Doe, Jane "}'
+</code></pre>
+          <button class="copy" data-copy="#ex1" style="margin-bottom:.6rem">Copy</button>
+        </div>
+        <div id="tab_node" style="display:none">
+          <pre id="ex_node"><code>await fetch('https://api.ingresskit.dev/v1/json/normalize?schema=contacts', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer &lt;API_KEY&gt;' },
+  body: JSON.stringify({ Email: 'USER@EXAMPLE.COM', Phone: '(555) 123-4567', Name: ' Doe, Jane ' })
+});
+</code></pre>
+          <button class="copy" data-copy="#ex_node" style="margin-bottom:.6rem">Copy</button>
+        </div>
+        <div id="tab_python" style="display:none">
+          <pre id="ex_py"><code>import requests
+resp = requests.post(
+  'https://api.ingresskit.dev/v1/json/normalize?schema=contacts',
+  headers={'Authorization': 'Bearer &lt;API_KEY&gt;'},
+  json={'Email':'USER@EXAMPLE.COM','Phone':'(555) 123-4567','Name':' Doe, Jane '}
+)
+print(resp.json())
+</code></pre>
+          <button class="copy" data-copy="#ex_py" style="margin-bottom:.6rem">Copy</button>
+        </div>
+      </div>
+      <details>
+        <summary>Before → After (contacts)</summary>
+        <pre><code>{
+  "Email": "USER@EXAMPLE.COM",
+  "Phone": "(555) 123-4567",
+  "Name": " Doe, Jane "
+}
+
+→
+
+{
+  "email": "user@example.com",
+  "phone": "5551234567",
+  "first_name": "Jane",
+  "last_name": "Doe",
+  "company": null
+}
+</code></pre>
+      </details>
+      <p>Server docs available at <code>/docs</code> when running locally.</p>
+    </div>
+
+    <div class="card full panel" id="pricing">
+      <h3>Pricing (Early Access)</h3>
+      <div class="pricing">
+        <div class="plan" onclick="document.querySelector('.ik-plan-free').click()">
+          <h4>Free</h4>
+          <div class="price">$0</div>
+          <ul>
+            <li><strong>2 Repairs</strong> + <strong>10 Webhooks</strong></li>
+            <li>Keys can be any string</li>
+            <li>For testing only</li>
+          </ul>
+          <button class="ik-plan-free primary" style="width:100%; margin-top:.5rem;" onclick="document.getElementById('ik_api_key').scrollIntoView({behavior:'smooth', block:'center'})">Start Free →</button>
+        </div>
+        <div class="plan" onclick="document.querySelector('[data-price=\'price_small\']').click()">
+          <h4>Test / Hobby</h4>
+          <div class="price">$5</div>
+          <ul>
+            <li><strong>100 Calls</strong> (~$0.05 ea)</li>
+            <li>Files + Webhooks</li>
+            <li>12‑month expiry</li>
+          </ul>
+          <button data-price="price_small" class="ik-plan-buy primary" style="width:100%; margin-top:.5rem">Start Testing →</button>
+        </div>
+        <div class="plan" style="border-color:#93c5fd; box-shadow:0 0 0 2px rgba(147,197,253,.35)" onclick="document.querySelector('[data-price=\'price_med\']').click()">
+          <h4>Builder <span class="badge">Most Popular</span></h4>
+          <div class="price">$15</div>
+          <ul>
+            <li><strong>1,000 Calls</strong> (~$0.015 ea)</li>
+            <li>Files + Webhooks</li>
+            <li>12‑month expiry</li>
+          </ul>
+          <button data-price="price_med" class="ik-plan-buy primary" style="width:100%; margin-top:.5rem">Buy 1,000 Calls →</button>
+        </div>
+        <div class="plan" onclick="document.querySelector('[data-price=\'price_big\']').click()">
+          <h4>Volume</h4>
+          <div class="price">$49</div>
+          <ul>
+            <li><strong>5,000 Calls</strong> (~$0.0098 ea)</li>
+            <li>Files + Webhooks</li>
+            <li>12‑month expiry</li>
+          </ul>
+          <button data-price="price_big" class="ik-plan-buy primary" style="width:100%; margin-top:.5rem">Buy 5,000 Calls →</button>
+        </div>
+      </div>
+      <p class="muted">Email us for Enterprise Pricing • help@ingresskit.com</p>
+    </div>
+
+    <div class="card left panel" style="min-height:70px; width:100%; padding-top:.2rem; padding-bottom:.2rem;">
+      <h3>Source</h3>
+      <p><a href="https://github.com/pilothobs/IngressKit" target="_blank" rel="noreferrer">GitHub: pilothobs/IngressKit</a></p>
+      <p class="muted">Trusted by developers, data teams, and SaaS builders.</p>
+    </div>
+
+      <script>
+        (function(){
+          async function createCheckout(priceId, apiKey, mode){
+            if(!apiKey){ alert('Enter your API key'); return; }
+            try{
+              const res = await fetch('/v1/billing/create_checkout', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ price_id: priceId, api_key: apiKey, mode: mode || undefined })
+              });
+              const data = await res.json();
+              if(data && data.url){ window.location.href = data.url; }
+              else { alert('Checkout creation failed'); }
+            } catch(e){ alert('Network error'); }
+          }
+          async function checkBalance(apiKey){
+            if(!apiKey){ alert('Enter your API key'); return; }
+            try{
+              const res = await fetch('/v1/billing/balance', {
+                headers: { 'Authorization': 'Bearer ' + apiKey }
+              });
+              const data = await res.json();
+              const el = document.getElementById('ik_balance');
+              if(typeof data.balance === 'number') el.textContent = 'Balance: ' + data.balance + ' credits';
+              else el.textContent = 'Balance unavailable';
+            } catch(e){ alert('Network error'); }
+          }
+          function attachCopy(){
+            document.querySelectorAll('[data-copy]').forEach(btn => {
+              btn.addEventListener('click', () => {
+                const sel = btn.getAttribute('data-copy');
+                const pre = document.querySelector(sel);
+                if(pre){
+                  const txt = pre.innerText;
+                  navigator.clipboard.writeText(txt).then(()=>{ btn.textContent='Copied'; setTimeout(()=>btn.textContent='Copy',1200); });
+                }
+              });
+            });
+          }
+          document.querySelectorAll('.ik-plan-buy').forEach(btn => {
+            btn.addEventListener('click', function(){
+              const key = document.getElementById('ik_api_key').value.trim();
+              const plan = this.getAttribute('data-price');
+              const mode = this.getAttribute('data-mode') || undefined;
+              createCheckout(plan, key, mode);
+            });
+          });
+          document.querySelectorAll('[data-tab]').forEach(btn => {
+            btn.addEventListener('click', function(){
+              const t = this.getAttribute('data-tab');
+              document.getElementById('tab_curl').style.display = (t==='curl')?'block':'none';
+              document.getElementById('tab_node').style.display = (t==='node')?'block':'none';
+              document.getElementById('tab_python').style.display = (t==='python')?'block':'none';
+            });
+          });
+          const checkBtn = document.getElementById('ik_check');
+          if(checkBtn){ checkBtn.addEventListener('click', function(){
+            const key = document.getElementById('ik_api_key').value.trim();
+            checkBalance(key);
+          }); }
+          attachCopy();
+        })();
+      </script>
+    </div>
+    </div>
+
+    <script>
+      (function(){
+        const root = document.documentElement;
+        const saved = localStorage.getItem('ik-theme');
+        if(saved === 'dark') root.setAttribute('data-theme','dark');
+        const sw = document.getElementById('themeSwitch');
+        const setState = () => {
+          const isDark = root.getAttribute('data-theme') === 'dark';
+          sw.setAttribute('data-on', isDark ? 'true' : 'false');
+          sw.setAttribute('aria-checked', isDark ? 'true' : 'false');
+        };
+        setState();
+        const toggle = () => {
+          const isDark = root.getAttribute('data-theme') === 'dark';
+          if(isDark){ root.removeAttribute('data-theme'); localStorage.setItem('ik-theme','light'); }
+          else { root.setAttribute('data-theme','dark'); localStorage.setItem('ik-theme','dark'); }
+          setState();
+        };
+        sw.addEventListener('click', toggle);
+        sw.addEventListener('keydown', (e)=>{ if(e.key==='Enter' || e.key===' ') { e.preventDefault(); toggle(); } });
+      })();
+    </script>
+    <footer class="wrap" style="padding-top:0">
+      <p class="muted" style="font-size:.95rem">© IngressKit · <a href="/static/terms.html">Terms</a> · <a href="/static/privacy.html">Privacy</a></p>
+    </footer>
+  </body>
+  </html>
+
+
+
+

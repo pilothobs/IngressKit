@@ -1,0 +1,78 @@
+name: 📋 New Schema Request
+description: Request a new data schema for IngressKit
+title: "[Schema]: "
+labels: ["schema", "enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for requesting a new schema! This helps expand IngressKit's capabilities for everyone.
+
+  - type: input
+    id: schema-name
+    attributes:
+      label: Schema Name
+      description: What should this schema be called?
+      placeholder: "healthcare, real-estate, inventory, etc."
+    validations:
+      required: true
+
+  - type: textarea
+    id: use-case
+    attributes:
+      label: Use Case
+      description: What industry/problem does this schema solve?
+      placeholder: "This schema would help process..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: fields
+    attributes:
+      label: Proposed Fields
+      description: What fields should be included in this schema?
+      placeholder: |
+        - field1: description
+        - field2: description
+        - field3: description
+    validations:
+      required: true
+
+  - type: textarea
+    id: synonyms
+    attributes:
+      label: Common Synonyms
+      description: What are common alternative names for these fields?
+      placeholder: |
+        - field1: alt1, alternative1, alt_name
+        - field2: alt2, alternative2
+    validations:
+      required: true
+
+  - type: textarea
+    id: sample-data
+    attributes:
+      label: Sample Data
+      description: Provide sample messy data that this schema should handle (anonymized)
+      placeholder: |
+        CSV headers or sample rows that demonstrate the problem
+    validations:
+      required: true
+
+  - type: textarea
+    id: transformations
+    attributes:
+      label: Special Transformations
+      description: Are there any special transformations needed?
+      placeholder: "Date parsing, unit conversions, validation rules, etc."
+
+  - type: checkboxes
+    id: contribution
+    attributes:
+      label: Contribution
+      description: How can you help with this schema?
+      options:
+        - label: I can provide more sample data
+        - label: I can help test the schema
+        - label: I can submit a PR implementing this schema
+        - label: I can provide domain expertise for validation

@@ -69,19 +69,6 @@ async def landing_page() -> HTMLResponse:
             .links { text-align: center; margin-top: 3rem; }
             .links a { margin: 0 1rem; color: #007bff; text-decoration: none; }
             .links a:hover { text-decoration: underline; }
-            .demo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin: 2rem 0; }
-            .demo-button { background: #007bff; color: white; padding: 0.75rem 1.5rem; border: none; 
-                          border-radius: 6px; font-weight: 600; cursor: pointer; transition: background 0.2s; }
-            .demo-button:hover { background: #0056b3; }
-            .demo-button.secondary { background: #6c757d; margin-left: 0.5rem; }
-            .demo-button.secondary:hover { background: #545b62; }
-            .example-card { border: 1px solid #eee; border-radius: 8px; padding: 1rem; }
-            .example-output { background: #f8f9fa; padding: 0.75rem; border-radius: 4px; 
-                             font-family: monospace; font-size: 0.85rem; }
-            @media (max-width: 768px) {
-                .demo-grid { grid-template-columns: 1fr; }
-                .demo-button { display: block; margin: 0.5rem 0; }
-            }
         </style>
     </head>
     <body>
@@ -113,101 +100,7 @@ async def landing_page() -> HTMLResponse:
             <a href="/docs" class="cta-secondary">View API Docs</a>
         </div>
         
-        <h2>🧪 Try It Live</h2>
-        <p>See IngressKit in action - no installation required!</p>
-        
-        <div class="demo-grid">
-            <div>
-                <h4>📥 Messy JSON Input</h4>
-                <textarea id="inputJson" style="width: 100%; height: 120px; font-family: monospace; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
-{
-  "Email": "USER@EXAMPLE.COM",
-  "Name": " Doe, Jane ",
-  "Phone": "(555) 123-4567"
-}</textarea>
-            </div>
-            <div>
-                <h4>✨ Clean Output</h4>
-                <textarea id="outputJson" readonly style="width: 100%; height: 120px; font-family: monospace; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px; background: #f8f9fa;"></textarea>
-            </div>
-        </div>
-        
-        <div style="text-align: center; margin: 1rem 0;">
-            <button onclick="testNormalize()" class="demo-button">
-                🚀 Normalize JSON
-            </button>
-            <button onclick="resetExample()" class="demo-button secondary">
-                🔄 Reset
-            </button>
-        </div>
-        
-        <script>
-        async function testNormalize() {
-            const input = document.getElementById('inputJson').value;
-            const output = document.getElementById('outputJson');
-            
-            try {
-                const data = JSON.parse(input);
-                const response = await fetch('/v1/json/normalize?schema=contacts', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(data)
-                });
-                
-                if (response.ok) {
-                    const result = await response.json();
-                    output.value = JSON.stringify(result, null, 2);
-                    output.style.background = '#d4edda';
-                } else {
-                    output.value = 'Error: ' + response.statusText;
-                    output.style.background = '#f8d7da';
-                }
-            } catch (e) {
-                output.value = 'Error: Invalid JSON - ' + e.message;
-                output.style.background = '#f8d7da';
-            }
-        }
-        
-        function resetExample() {
-            document.getElementById('inputJson').value = `{
-  "Email": "USER@EXAMPLE.COM",
-  "Name": " Doe, Jane ",
-  "Phone": "(555) 123-4567"
-}`;
-            document.getElementById('outputJson').value = '';
-            document.getElementById('outputJson').style.background = '#f8f9fa';
-        }
-        </script>
-
-        <h2>📊 More Examples</h2>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin: 2rem 0;">
-            <div class="example-card">
-                <h4>🏢 Business Contact</h4>
-                <div class="example-output">
-<strong>Input:</strong> "Smith, John"<br>
-<strong>Output:</strong> first_name: "John", last_name: "Smith"<br>
-<em>✨ Smart name parsing</em>
-                </div>
-            </div>
-            <div class="example-card">
-                <h4>💰 Payment Webhook</h4>
-                <div class="example-output">
-<strong>Input:</strong> Stripe/GitHub/Slack webhooks<br>
-<strong>Output:</strong> Unified canonical events<br>
-<em>✨ Same format across providers</em>
-                </div>
-            </div>
-            <div class="example-card">
-                <h4>📦 Product Data</h4>
-                <div class="example-output">
-<strong>Input:</strong> "Weight (lb): 2.5"<br>
-<strong>Output:</strong> weight_kg: 1.134<br>
-<em>✨ Automatic unit conversion</em>
-                </div>
-            </div>
-        </div>
-
-        <h2>⚡ Quick Start</h2>
+        <h2>Quick Start</h2>
         <div class="code">
 # Install via pip
 pip install ingresskit
@@ -217,11 +110,6 @@ docker run -p 8080:8080 pilothobs/ingresskit
 
 # Clean your first CSV
 ingresskit repair --in messy.csv --out clean.csv --schema contacts
-
-# Or use the API (like the demo above)
-curl -X POST "http://localhost:8080/v1/json/normalize?schema=contacts" \\
-  -H "Content-Type: application/json" \\
-  -d '{"Email":"USER@EXAMPLE.COM","Name":"Doe, Jane"}'
         </div>
         
         <div class="support-section">
@@ -234,7 +122,7 @@ curl -X POST "http://localhost:8080/v1/json/normalize?schema=contacts" \\
             <a href="https://github.com/pilothobs/ingresskit">📚 GitHub</a>
             <a href="/docs">🔧 API Docs</a>
             <a href="https://github.com/pilothobs/ingresskit/blob/main/README.md">📖 Documentation</a>
-            <a href="https://github.com/pilothobs/ingresskit/issues">💬 Issues</a>
+            <a href="https://github.com/pilothobs/ingresskit/discussions">💬 Community</a>
         </div>
         
         <p style="text-align: center; margin-top: 3rem; color: #666; font-size: 0.9rem;">

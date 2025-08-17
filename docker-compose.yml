@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  ingresskit-server:
+    build:
+      context: .
+      target: ingresskit-server
+    ports:
+      - "8080:8080"
+    environment:
+      - ENVIRONMENT=development
+    volumes:
+      # Mount for development (optional)
+      - ./examples:/app/examples:ro
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    restart: unless-stopped
+
+  # Example: CLI usage (one-off container)
+  ingresskit-cli:
+    build:
+      context: .
+      target: ingresskit-core
+    volumes:
+      - ./examples:/data
+    profiles:
+      - cli
+    # Usage: docker-compose run --rm ingresskit-cli --in /data/contacts_messy.csv --out /data/output.csv --schema contacts

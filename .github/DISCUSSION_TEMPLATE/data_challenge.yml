@@ -1,0 +1,66 @@
+title: "🎮 Data Challenge: [Describe your messy data]"
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## IngressKit Data Challenge 🎮
+        
+        Think your data is too messy for IngressKit? We love a challenge!
+        
+        **How it works:**
+        1. Share your messy data (anonymized)
+        2. We'll show how IngressKit handles it
+        3. If it breaks, we'll fix it and credit you as a contributor
+        4. Community votes on the most interesting challenges
+
+  - type: input
+    attributes:
+      label: "Challenge Name"
+      description: "Give your data challenge a catchy name"
+      placeholder: "The Impossible CSV, Webhook from Hell, etc."
+
+  - type: dropdown
+    attributes:
+      label: "Data Type"
+      description: "What type of messy data is this?"
+      options:
+        - CSV/Excel file
+        - Webhook payload
+        - JSON data
+        - Mixed format
+
+  - type: textarea
+    attributes:
+      label: "The Challenge"
+      description: "Describe what makes this data so difficult to process"
+      placeholder: "This CSV has mixed encodings, nested headers, and dates in 5 different formats..."
+
+  - type: textarea
+    attributes:
+      label: "Sample Data"
+      description: "Provide anonymized sample data (remove sensitive info)"
+      placeholder: "Headers, sample rows, or JSON structure"
+
+  - type: textarea
+    attributes:
+      label: "Expected Output"
+      description: "What should the clean version look like?"
+      placeholder: "Describe the ideal cleaned format"
+
+  - type: dropdown
+    attributes:
+      label: "Difficulty Level"
+      description: "How difficult do you think this is?"
+      options:
+        - "😅 Easy - should work fine"
+        - "😰 Medium - might need some tweaks"
+        - "😱 Hard - this will break IngressKit"
+        - "🤯 Impossible - no tool can handle this"
+
+  - type: checkboxes
+    attributes:
+      label: "Community Engagement"
+      options:
+        - label: "I'm willing to provide more sample data if needed"
+        - label: "I can help test the solution"
+        - label: "I'd like to be credited if this leads to improvements"

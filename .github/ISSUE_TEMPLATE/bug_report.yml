@@ -1,0 +1,78 @@
+name: 🐛 Bug Report
+description: Report a bug in IngressKit
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a bug! Please fill out the form below to help us fix it.
+
+  - type: input
+    id: version
+    attributes:
+      label: IngressKit Version
+      description: What version of IngressKit are you using?
+      placeholder: "v0.1.0"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: component
+    attributes:
+      label: Component
+      description: Which component has the bug?
+      options:
+        - Python SDK (CSV/Excel processing)
+        - FastAPI Server (webhooks/JSON)
+        - Docker deployment
+        - Documentation
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Bug Description
+      description: A clear description of what the bug is
+      placeholder: "Describe what happened and what you expected to happen"
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to Reproduce
+      description: Steps to reproduce the behavior
+      placeholder: |
+        1. Run command '...'
+        2. Process file '...'
+        3. See error
+    validations:
+      required: true
+
+  - type: textarea
+    id: sample-data
+    attributes:
+      label: Sample Data
+      description: If relevant, provide sample data that causes the issue (anonymized)
+      placeholder: "CSV headers, JSON payload, etc."
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Your environment details
+      placeholder: |
+        - OS: [e.g. Ubuntu 22.04, macOS 13, Windows 11]
+        - Python: [e.g. 3.11.2]
+        - Docker: [e.g. 24.0.5]
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional Context
+      description: Add any other context about the problem here
