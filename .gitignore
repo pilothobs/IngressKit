@@ -20,3 +20,8 @@ dist/
 build/
 *.egg-info/
 
+
+# Environment files
+.env
+.env.bak
+*.env
